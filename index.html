@@ -1,45 +1,48 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Link to Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
     <!-- Link to your custom CSS file -->
     <link rel="stylesheet" href="style.css">
-    <!-- Link to the 2023 neon glass button CSS -->
-    <link rel="stylesheet" href="2023-neon-glass-button/neon-glass-button">
-    <title>Dog Breed</title>
+    <title>DOG FACTS</title>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <div class="heading">
-        <div id="item">
-            <h2 class="ui header">
-                <div id="content"><span id="spanhead">Dog Breed</span>  Information</div><br>
-                <div id="subtitle">Learn about dog breeds</div>
-            </h2>
-        </div>
+    <div id="header">
+        <h1>DOG FACTS</h1>
+        <h3>Facts you knew and some you never knew existed</h3>
     </div>
-
-    <div class="centeredgrid">
-        <div id="leftmenu">
-            <!-- Left Menu -->
-            <h3> Dog Facts</h3>
-            <ul id="dividedlist">
-                <!-- Dog facts will be displayed here -->
-            </ul>
+    <div id="middlesection">
+        <div id="list">
+            <span>Breed</span>
+            <ul id="breedList"></ul>
         </div>
+        <div id="middle">
+            <div><span>FACT</span></div>
+            <div>
+                <img src="https://media.giphy.com/media/kiBcwEXegBTACmVOnE/giphy.gif" alt="Dog Giphy" width="500" height="600">
+            </div>
+            <div id="displayfact">
+
+            </div>
+            <div>
+                <img src="https://media.giphy.com/media/iDJQRjTCenF7A4BRyU/giphy.gif" alt="Dog Giphy" width="500" height="600">
+            </div>
+        </div>
+        <div id="comments"> <span>Enter your comment here!</span></div>
     </div>
     <footer>
         <div class="copyright">
-            © 2023 SHEKHS-MUREGA. All Rights Reserved.
+            © 2023 MARKSWELL-CRYPTO. All Rights Reserved.
         </div>
     </footer>
-    <script src="./index.js"></script>
+    <script src="./src/index.js"></script>
 </body>
 </html>
