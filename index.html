@@ -10,13 +10,13 @@
     <!-- Link to Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
     <!-- Link to your custom CSS file -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title>DOG FACTS</title>
 </head>
 <body>
     <div id="header">
         <h1>Dog Facts</h1>
-        <h3>Fascinating Facts That Exist</h3>
+        <h3>Fascinating Facts That exist</h3>
     </div>
     <div id="middlesection">   
         <div>
@@ -30,21 +30,27 @@
                 <button id="subscribeButton">Subscribe</button>   
             </div>
         </div>
-        <div id="middle">
+        <div id="middle">  
             <div><span>Fact</span></div>
-            
             <div id="displayfact">
 
             </div>
             <div>
-                <img src="https://media.giphy.com/media/4Zo41lhzKt6iZ8xff9/giphy.gif" alt="Dog Giphy" width="300" height="300">     
+                <img src="https://media.giphy.com/media/2vmgb8ZGaeBsuSeo5I/giphy.gif" alt="Dog Giphy" width="300" height="300">     
             </div>
         </div>
-        <div id="comments"> <span>Comments Section!</span></div>
+        <div id="comments">
+            <h2>Comment Section</h2>
+            <div id="comment-form">
+                <textarea id="comment-input" placeholder="Enter your comment here..."></textarea>
+                <button id="comment-submit">Submit</button>
+            </div>
+            <div id="comment-list"></div>
+        </div>
     </div>
     <footer>
         <div class="copyright">
-            &copy; 2023 SHEKHS-MUREGA. All rights reserved.
+            &copy; 2023 SHEKHS-MUREGA. All Rights Reserved.
         </div>    
     </footer>
     <script src="./src/index.js"></script>

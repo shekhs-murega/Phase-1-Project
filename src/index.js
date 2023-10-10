@@ -3,70 +3,70 @@ document.addEventListener('DOMContentLoaded', () => {
     const breedList = document.getElementById('breedList');
     const displayFact = document.getElementById('displayfact');
 
-    //The identified breed item
-    let identifiedBreedItem = null;
-    //The fetched breed data 
-    let breedData = null; 
+    // Store the selected breed item
+    let selectedBreedItem = null;
+    // Store the fetched breeds data 
+    let breedsData = null; 
 
-    //Fetching dog breed data from the server
+    // Function to fetch dog breed data from the server
     function fetchDogBreeds() {
         fetch('https://dogapi.dog/api/v2/breeds?page[number]=1')
             .then(response => response.json())
             .then(data => {
-                //The fetched breed data
-                breedData = data.data;
+                // Store the fetched breeds data
+                breedsData = data.data;
                 // Display each breed in the list
-                breedData.forEach(breedData => {
-                    const breedsItem = document.createElement('ul');
-                    breedsItem.textContent = breedData.attributes.name;
+                breedsData.forEach(breedData => {
+                    const breedItem = document.createElement('ul');
+                    breedItem.textContent = breedData.attributes.name;
 
-                    breedList.appendChild(breedsItem);
+                    breedList.appendChild(breedItem);
 
-                    // A mouse hover effect
-                    breedsItem.addEventListener('mouseenter', () => {
-                        breedsItem.style.backgroundColor = 'lightblue';
+                    // Add a mouse hover effect
+                    breedItem.addEventListener('mouseenter', () => {
+                        breedItem.style.backgroundColor = 'lightgray';
                     });
 
                     // Remove the mouse hover effect
-                    breedsItem.addEventListener('mouseleave', () => {
-                        if (breedsItem !== identifiedBreedItem) {
-                            breedsItem.style.backgroundColor = 'transparent';
+                    breedItem.addEventListener('mouseleave', () => {
+                        if (breedItem !== selectedBreedItem) {
+                            breedItem.style.backgroundColor = 'transparent';
                         }
                     });
 
-                    // A click event listener to each breed item
-                    breedsItem.addEventListener('click', () => {
-                        // Remove the mouse hover effect from the previously selected breed item
-                        if (identifiedBreedItem !== null) {
-                            identifiedBreedItem.style.backgroundColor = 'transparent';
+                    // Add a click event listener to each breed item
+                    breedItem.addEventListener('click', () => {
+                        // Remove the mouse hover effect from previously selected breed item
+                        if (selectedBreedItem !== null) {
+                            selectedBreedItem.style.backgroundColor = 'transparent';
                         }
 
                         // Get the breed name when clicked
-                        let identifiedBreedName = breedData.attributes.name;
+                        let selectedBreedName = breedData.attributes.name;
 
                         // Store the selected breed item
-                        identifiedBreedItem = breedsItem;
+                        selectedBreedItem = breedItem;
 
                         // Change the color of the selected breed item
-                        breedsItem.style.backgroundColor = 'white';
+                        breedItem.style.backgroundColor = 'lightblue';
 
                         // Call a function to fetch and display dog facts
-                        fetchBreedDescription(identifiedBreedName);
+                        fetchBreedDescription(selectedBreedName);
                     });
                 });
             })
             .catch(error => {
-                console.error('Error while fetching dog breeds:', error);
+                console.error('Error fetching dog breeds:', error);
             });
     }
 
     // Function to fetch breed description and image
-    function fetchBreedDescription(identifiedBreedName) {
+    function fetchBreedDescription(selectedBreedName) {
         // Find the breed by name in the stored data
-        const identifiedBreedData = breedData.find(breedData => breedData.attributes.name === identifiedBreedName);
+        const selectedBreedData = breedsData.find(breedData => breedData.attributes.name === selectedBreedName);
 
-        if (identifiedBreedData) {
-            const breedAttributes = identifiedBreedData.attributes;
+        if (selectedBreedData) {
+            const breedAttributes = selectedBreedData.attributes;
             displayFact.innerHTML = `
                 <h2 id="title">${breedAttributes.name}</h2>
                 <p id="description">Description: ${breedAttributes.description}</p>
@@ -79,20 +79,20 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Breed not found in the stored data.');
         }
     } 
-        // Add an event listener to the button(suscribe)
+        // Add an event listener to the Subscribe button
         const subscribeButton = document.getElementById('subscribeButton');
 subscribeButton.addEventListener('click', () => {
     // Get the email input value
     const emailInput = document.getElementById('emailInput');
-    const conributorEmail = emailInput.value;
+    const userEmail = emailInput.value;
     // Make sure the email input is not empty
-    if (!conributorEmail) {
+    if (!userEmail) {
         alert('Please enter your email.');
         return;
     }
-    // A JSON object with the email
-    const emailData = { email: conributorEmail };
-    // A POST request to store the email in db.json
+    // Create a JSON object with the email
+    const emailData = { email: userEmail };
+    // Send a POST request to store the email in db.json
     fetch("http://localhost:3000/emails", {
         method: 'POST',
         headers: {
@@ -102,19 +102,101 @@ subscribeButton.addEventListener('click', () => {
     })
     .then(response => response.json())
     .then(message =>{
-      alert('Thanks For Subscribing!')  
+      alert('Thank You For Subscribing!')  
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Please try again later.');
+        alert('An error occurred while subscribing. Please try again later.');
     });
-
     // Clear the email input field
     emailInput.value = '';
 });
 
-        
+const commentInput = document.getElementById('comment-input');
+    const commentList = document.getElementById('comment-list');
+    const commentSubmitButton = document.getElementById('comment-submit');
+
+    // Function to create a new comment element
+    function createCommentElement(text) {
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+
+        const commentText = document.createElement('p');
+        commentText.textContent = text;
+
+        const actionsDiv = document.createElement('div');
+        actionsDiv.classList.add('actions');
+
+        const thumbsUpIcon = document.createElement('i');
+        thumbsUpIcon.classList.add('fas', 'fa-thumbs-up');
+        thumbsUpIcon.addEventListener('click', () => {
+            // Implement your upvote logic here
+            // You can increase the upvote count and update the UI
+        });
+
+        const thumbsDownIcon = document.createElement('i');
+        thumbsDownIcon.classList.add('fas', 'fa-thumbs-down');
+        thumbsDownIcon.addEventListener('click', () => {
+            // Implement your downvote logic here
+            // You can increase the downvote count and update the UI
+        });
+
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.classList.add('edit-button');
+        editButton.addEventListener('click', () => {
+            // Implement your edit comment logic here
+            // You can show/hide the edit input field and populate it with the comment text
+        });
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => {
+            // Implement your delete comment logic here
+            // You can remove the comment element from the UI
+        });
+
+        const editInput = document.createElement('input');
+        editInput.classList.add('edit-input', 'hidden');
+        editInput.setAttribute('type', 'text');
+        editInput.setAttribute('placeholder', 'Edit your comment...');
+        editInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                // Implement your save edited comment logic here
+                // You can update the comment text with the new value
+            }
+        });
+
+        actionsDiv.appendChild(thumbsUpIcon);
+        actionsDiv.appendChild(thumbsDownIcon);
+        actionsDiv.appendChild(editButton);
+        actionsDiv.appendChild(deleteButton);
+        commentElement.appendChild(commentText);
+        commentElement.appendChild(actionsDiv);
+        commentElement.appendChild(editInput);
+
+        return commentElement;
+    }
+
+    // Function to handle comment submission
+    function submitComment() {
+        const commentText = commentInput.value.trim();
+
+        if (commentText !== '') {
+            const commentElement = createCommentElement(commentText);
+            commentList.appendChild(commentElement);
+            commentInput.value = '';
+        }
+    }
+
+    // Event listener for submitting a comment
+    commentSubmitButton.addEventListener('click', submitComment);
+    commentInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            submitComment();
+        }
+    });        
     
-    //Initialize the page
+    // Fetch dog breeds and initialize the page
     fetchDogBreeds();
 });
