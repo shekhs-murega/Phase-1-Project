@@ -53,23 +53,32 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Function to fetch breed description and image from Dog API v2
+    // Function to fetch breed description and image
     function fetchBreedDescription(breed) {
-        fetch(`https://dogapi.dog/api/v2/breeds/${breed}`)
+        fetch(`https://dog.ceo/api/breeds/image/random`)
             .then(response => response.json())
             .then(data => {
-                const description = data.data.description || 'Description not available.';
-                const imageUrl = data.data.image || 'Image not available.';
+                const imageUrl = data.message;
 
-                // Display the breed image and description
-                displayFact.innerHTML = `
-                    <img src="${imageUrl}" alt="${breed}" width="500" height="500">
-                    <h2 id="title">BREED: ${breed}</h2>
-                    <p id="description">Description: ${description}</p>
-                `;
+                // Fetch additional dog facts or description from another source
+                fetch(`https://dog.ceo/api/breeds/${breed}/list`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const description = data.message[0] || 'Description not available.';
+                        
+                        // Display the breed image and description
+                        displayFact.innerHTML = `
+                            <img src="${imageUrl}" alt="${breed}" width="500" height="500">
+                            <h2 id="title">BREED: ${breed}</h2>
+                            <p id="description">Description: ${description}</p>
+                        `;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching breed description:', error);
+                    });
             })
             .catch(error => {
-                console.error('Error fetching breed data:', error);
+                console.error('Error fetching breed image:', error);
             });
     }
 
