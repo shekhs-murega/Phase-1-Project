@@ -1,71 +1,72 @@
+//declare variable names with a constany
 document.addEventListener('DOMContentLoaded', () => {
     const breedList = document.getElementById('breedList');
     const displayFact = document.getElementById('displayfact');
 
-    // Store the selected breed item
-    let selectedBreedItem = null;
-    // Store the fetched breeds data 
-    let breedsData = null; 
+    //The identified breed item
+    let identifiedBreedItem = null;
+    //The fetched breed data 
+    let breedData = null; 
 
-    // Function to fetch dog breed data from the server
+    //Fetching dog breed data from the server
     function fetchDogBreeds() {
         fetch('https://dogapi.dog/api/v2/breeds?page[number]=1')
             .then(response => response.json())
             .then(data => {
-                // Store the fetched breeds data
-                breedsData = data.data;
+                //The fetched breed data
+                breedData = data.data;
                 // Display each breed in the list
-                breedsData.forEach(breedData => {
-                    const breedItem = document.createElement('ul');
-                    breedItem.textContent = breedData.attributes.name;
+                breedData.forEach(breedData => {
+                    const breedsItem = document.createElement('ul');
+                    breedsItem.textContent = breedData.attributes.name;
 
-                    breedList.appendChild(breedItem);
+                    breedList.appendChild(breedsItem);
 
-                    // Add a mouse hover effect
-                    breedItem.addEventListener('mouseenter', () => {
-                        breedItem.style.backgroundColor = 'lightgray';
+                    // A mouse hover effect
+                    breedsItem.addEventListener('mouseenter', () => {
+                        breedsItem.style.backgroundColor = 'lightblue';
                     });
 
                     // Remove the mouse hover effect
-                    breedItem.addEventListener('mouseleave', () => {
-                        if (breedItem !== selectedBreedItem) {
-                            breedItem.style.backgroundColor = 'transparent';
+                    breedsItem.addEventListener('mouseleave', () => {
+                        if (breedsItem !== identifiedBreedItem) {
+                            breedsItem.style.backgroundColor = 'transparent';
                         }
                     });
 
-                    // Add a click event listener to each breed item
-                    breedItem.addEventListener('click', () => {
-                        // Remove the mouse hover effect from previously selected breed item
-                        if (selectedBreedItem !== null) {
-                            selectedBreedItem.style.backgroundColor = 'transparent';
+                    // A click event listener to each breed item
+                    breedsItem.addEventListener('click', () => {
+                        // Remove the mouse hover effect from the previously selected breed item
+                        if (identifiedBreedItem !== null) {
+                            identifiedBreedItem.style.backgroundColor = 'transparent';
                         }
 
                         // Get the breed name when clicked
-                        let selectedBreedName = breedData.attributes.name;
+                        let identifiedBreedName = breedData.attributes.name;
 
                         // Store the selected breed item
-                        selectedBreedItem = breedItem;
+                        identifiedBreedItem = breedsItem;
 
                         // Change the color of the selected breed item
-                        breedItem.style.backgroundColor = 'lightblue';
+                        breedsItem.style.backgroundColor = 'white';
 
                         // Call a function to fetch and display dog facts
-                        fetchBreedDescription(selectedBreedName);
+                        fetchBreedDescription(identifiedBreedName);
                     });
                 });
             })
             .catch(error => {
-                console.error('Error fetching dog breeds:', error);
+                console.error('Error while fetching dog breeds:', error);
             });
     }
 
     // Function to fetch breed description and image
-    function fetchBreedDescription(selectedBreedName) {
+    function fetchBreedDescription(identifiedBreedName) {
         // Find the breed by name in the stored data
-        const selectedBreedData = breedsData.find(breedData => breedData.attributes.name === selectedBreedName);
+        const identifiedBreedData = breedData.find(breedData => breedData.attributes.name === identifiedBreedName);
 
-        if (selectedBreedData) {
-            const breedAttributes = selectedBreedData.attributes;
+        if (identifiedBreedData) {
+            const breedAttributes = identifiedBreedData.attributes;
             displayFact.innerHTML = `
                 <h2 id="title">${breedAttributes.name}</h2>
                 <p id="description">Description: ${breedAttributes.description}</p>
@@ -78,20 +79,20 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Breed not found in the stored data.');
         }
     } 
-        // Add an event listener to the Subscribe button
+        // Add an event listener to the button(suscribe)
         const subscribeButton = document.getElementById('subscribeButton');
 subscribeButton.addEventListener('click', () => {
     // Get the email input value
     const emailInput = document.getElementById('emailInput');
-    const userEmail = emailInput.value;
+    const conributorEmail = emailInput.value;
     // Make sure the email input is not empty
-    if (!userEmail) {
+    if (!conributorEmail) {
         alert('Please enter your email.');
         return;
     }
-    // Create a JSON object with the email
-    const emailData = { email: userEmail };
-    // Send a POST request to store the email in db.json
+    // A JSON object with the email
+    const emailData = { email: conributorEmail };
+    // A POST request to store the email in db.json
     fetch("http://localhost:3000/emails", {
         method: 'POST',
         headers: {
@@ -101,11 +102,11 @@ subscribeButton.addEventListener('click', () => {
     })
     .then(response => response.json())
     .then(message =>{
-      alert('Thank You For Subscribing!')  
+      alert('Thanks For Subscribing!')  
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('An error occurred while subscribing. Please try again later.');
+        alert('Please try again later.');
     });
 
     // Clear the email input field
@@ -114,6 +115,6 @@ subscribeButton.addEventListener('click', () => {
 
         
     
-    // Fetch dog breeds and initialize the page
+    //Initialize the page
     fetchDogBreeds();
 });
