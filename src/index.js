@@ -1,11 +1,14 @@
+//dog breed app
 document.addEventListener('DOMContentLoaded', () => {
     const breedList = document.getElementById('breedList');
     const displayFact = document.getElementById('displayfact');
+    //declare variable names using let
     let selectedBreedItem = null;
     let breedsData = null;
 
-    // Function to fetch dog breed data from the server
+    // Fetching data from the server
     function fetchDogBreeds() {
+        //dog api
         fetch('https://dogapi.dog/api/v2/breeds?page[number]=1')
             .then(response => response.json())
             .then(data => {
@@ -43,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error fetching dog breeds:', error);
             });
     }
-
+//fetching breed description
     function fetchBreedDescription(selectedBreedName) {
         const selectedBreedData = breedsData.find(breedData => breedData.attributes.name === selectedBreedName);
 
@@ -62,19 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Add an event listener to the Subscribe button
+    // Adding an event listener to the Subscribe button
     const subscribeButton = document.getElementById('subscribeButton');
     subscribeButton.addEventListener('click', () => {
         const emailInput = document.getElementById('emailInput');
         const userEmail = emailInput.value;
 
         if (!userEmail) {
-            alert('Please enter your email.');
+            alert('Enter your email.');
             return;
         }
 
         const emailData = { email: userEmail };
-
+// HTTP POST
         fetch("http://localhost:3000/emails", {
             method: 'POST',
             headers: {
@@ -112,13 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
         editButton.textContent = 'Edit';
         editButton.classList.add('edit-button');
         editButton.addEventListener('click', () => {
-            // Implement your edit comment logic here
+            // The edit comment logic here
         });
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener('click', () => {
-            // Implement your delete comment logic here
+            //The delete comment logic here
             commentList.removeChild(commentElement);
         });
 
@@ -128,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         editInput.setAttribute('placeholder', 'Edit your comment...');
         editInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                // Implement your save edited comment logic here
+                // The saved edited comment logic here
             }
         });
 
