@@ -18,16 +18,17 @@
         <h1>Dog Facts</h1>
         <h3>Fascinating Facts That exist</h3>
     </div>
-    <div id="middlesection">   
+    <div id="middlesection"
+    class="container">   
         <div>
             <div id="list"> 
                 <span>Breed</span>
                 <ul id="breedList"></ul>
             </div>
-            <div id="subscribe">
+            <div id="subscribe"class="alert alert-success" role="alert">
                 <label><h4>Weekly Contributors!</h4></label><br><br>
                 <input type="email" id="emailInput" placeholder="Enter your email"><br><br>
-                <button id="subscribeButton">Subscribe</button>   
+                <button id="subscribeButton" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Subscribe</button>   
             </div>
         </div>
         <div id="middle">  
@@ -36,16 +37,19 @@
 
             </div>
             <div>
-                <img src="https://media.giphy.com/media/2vmgb8ZGaeBsuSeo5I/giphy.gif" alt="Dog Giphy" width="300" height="300">     
+                <img src="https://media.giphy.com/media/1QeEOLt6j3aWy8XKSs/giphy.gif" alt="Dog Giphy" width="500" height="500">     
             </div>
         </div>
         <div id="comments">
             <h2>Comment Section</h2>
             <div id="comment-form">
                 <textarea id="comment-input" placeholder="Enter your comment here..."></textarea>
-                <button id="comment-submit">Submit</button>
+                <button id="comment-submit"class="btn btn-primary" data-toggle="modal" data-target="#myModal">Submit</button>
             </div>
             <div id="comment-list"></div>
+        </div>
+        <div>
+            <img src="https://media.giphy.com/media/iiKF8hdwLu1z0imHQO/giphy.gif" alt="Dog Giphy" width="60" height="90">     
         </div>
     </div>
     <footer>

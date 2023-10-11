@@ -1,21 +1,25 @@
 
 /* Reset some default browser styles */
-body, h1, h3 {
-    background-color: black;
-    margin: 0;
-    padding: 0;
+body {
+    background-image: url('https://images.pexels.com/photos/4046718/pexels-photo-4046718.jpeg?auto=compress&cs=tinysrgb&w=400');
+    background-size: cover;
+    background-repeat: no-repeat;
+    
 }
+
 
 /* Style the header */
 #header {
     
-    color: palevioletred;
+    color: black;
     text-align: center;
     padding: 30px 0;
+    font-weight: 5000;
 }
 h1{
-    font-family: fantasy;
-    font-weight: 1000;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 4000;
+
 }
 h3{
     font-family: fantasy;
@@ -30,7 +34,7 @@ h3{
     justify-content: space-between; 
 /* Align sections at the top */
     align-items: flex-start;
-    background-color: black;
+    background-color: transparent;
     height: fit-content;
     margin-left: 2%;
     margin-right: 1%;
@@ -41,30 +45,32 @@ h3{
     margin: 5%;
     font-size: 16px;
     font-weight: 500;
-    font-family: fantasy;
-    border-top: #333;
+    font-family: bold;
+    border-top: black;
+    background-color: transparent;
 }
 /* Style the list section */
 #list {
 /* Take up 30% of available width */
     width: max-content; 
-    background-color: plum;
+    background-color: transparent;
     padding: 20px;
-    border: 2px solid #333;
+    border: 2px solid black;
     margin: auto;
     text-align: center;
     margin-top: 1%;
     margin-bottom: 1%;
-    font-style: inherit;    
+    font-style: fantasy;    
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: 500;
+    font-weight: 2000;
+    color:black;
 }
 
 /* Style the middle section */
 #middle {
     margin: auto;
     flex-basis: 60%; 
-    background-color:rgb(250, 176, 201);
+    background-color:transparent;
     padding: 20px;
     text-align: center;
 
@@ -75,9 +81,9 @@ h3{
     margin-bottom: 1%;
     margin-top: 1%;
     flex-basis: 30%; 
-    background-color: plum;
+    background-color:transparent;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 2px solid black;
 }
 
 span{
@@ -93,7 +99,7 @@ footer {
     font-style: oblique;
     text-align: center;
     padding: 10px 0;
-    background-color: plum;
+    background-color: transparent;
     color: black;
 }
 /* styles.css */
