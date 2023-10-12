@@ -4,9 +4,19 @@ You can have some fun and learn interesting dog facts. The website provides rand
 # Dog Breed Viewer and Comment Section
 
 A web application that allows you to view information about various dog breeds and participate in discussions by adding, editing, and deleting comments. It's basically a learning application for a selected range of dogbreeds.
+I fetched data from the following dog API:
+
+```bash
+https://dogapi.dog/docs/api-v2
+```
+
+![Demo](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG16enE2enJzd24xZWkxbmpueXB4M3Q0bjhpY3NmYWF4ZWh0d2Q3aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ee2CiNPQ6Pa9YS4Kws/giphy.gif)
 
 
-![Demo](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnZzY2E4aWJxMW5yZ3l2M2hvNXZ5OThqcHZnZjV0bWhvemJoNmQ3MSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/vBhClQEqpKZU5x8yd6/giphy.gif)
+This is how my final work project looks like. It's just a snippet of my work;
+
+
+![Demo](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXJ3NGl3dDB3NnFnOTh5Z205MWc4NTQ0bGJ5dWtkYzExcDZidHhqMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zrlCT6ow0vs6KteBz2/giphy.gif)
 
 ## Table of Contents
 
@@ -87,7 +97,3 @@ This app is licensed under the MIT License.
 Feel free to customize this `README.md` file according to your project's specific details and requirements.
 
   
-
-
-[usage]: #usage
-[def]: #contributing
