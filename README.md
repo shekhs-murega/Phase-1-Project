@@ -55,7 +55,13 @@ Follow the instructions below to get a copy of the project up and running on you
 ```bash
 git clone https://github.com/shekhs-murega/Phase-1-Project
 ```
-3. Open index.html in your browser.
+2. Open index.html in your browser.
+3. Run the JSON server. (for the emails and comments)
+
+```bash
+json-server --watch db.json
+
+```
 
 ## Project structure
 
