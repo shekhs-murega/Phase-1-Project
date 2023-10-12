@@ -14,6 +14,8 @@ A web application that allows you to view information about various dog breeds a
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Technology stack](#technology-stack)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
@@ -85,3 +87,7 @@ This app is licensed under the MIT License.
 Feel free to customize this `README.md` file according to your project's specific details and requirements.
 
   
+
+
+[usage]: #usage
+[def]: #contributing
