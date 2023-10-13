@@ -1,4 +1,13 @@
 {
-  "emails": [],
+  "emails": [
+    {
+      "email": "shekhsmurega@gmail.com",
+      "id": 1
+    },
+    {
+      "email": "nyamburashekhs@gmail.com",
+      "id": 2
+    }
+  ],
   "comments": []
 }
