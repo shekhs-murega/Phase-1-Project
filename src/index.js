@@ -1,60 +1,74 @@
-//dog breed app
-document.addEventListener('DOMContentLoaded', () => {
+// Dog Breed App
+
+// Wait for the DOM content to be fully loaded before executing JavaScript
+document.addEventListener('DOMContentLoaded', (e) => {
+    e.preventDefault(); // Prevent the default action of the event
+
+    // Get references to various elements in the HTML document
     const breedList = document.getElementById('breedList');
     const displayFact = document.getElementById('displayfact');
-    //declare variable names using let
+    const subscribeButton = document.getElementById('subscribeButton');
+    const commentInput = document.getElementById('comment-input');
+    const commentList = document.getElementById('comment-list');
+    const commentSubmitButton = document.getElementById('comment-submit');
+
+    // Initialize selected breed item and fetched breeds data
     let selectedBreedItem = null;
     let breedsData = null;
 
-    // Fetching data from the server
+    // Use fetch to GET the dog breeds from a public API
     function fetchDogBreeds() {
-        //dog api
         fetch('https://dogapi.dog/api/v2/breeds?page[number]=1')
             .then(response => response.json())
             .then(data => {
                 breedsData = data.data;
+                // Display each breed in the list
                 breedsData.forEach(breedData => {
                     const breedItem = document.createElement('ul');
                     breedItem.textContent = breedData.attributes.name;
-
                     breedList.appendChild(breedItem);
 
-                    breedItem.addEventListener('mouseenter', () => {
-                        breedItem.style.backgroundColor = 'lightgray';
+                    // Event listeners for mouse hover and click
+                    breedItem.addEventListener('mouseenter', (e) => {
+                        e.preventDefault();
+                        breedItem.style.backgroundColor = 'gray';
                     });
 
-                    breedItem.addEventListener('mouseleave', () => {
+                    breedItem.addEventListener('mouseleave', (e) => {
+                        e.preventDefault();
                         if (breedItem !== selectedBreedItem) {
                             breedItem.style.backgroundColor = 'transparent';
                         }
                     });
 
-                    breedItem.addEventListener('click', () => {
+                    breedItem.addEventListener('click', (e) => {
+                        e.preventDefault();
                         if (selectedBreedItem !== null) {
                             selectedBreedItem.style.backgroundColor = 'transparent';
                         }
-
-                        let selectedBreedName = breedData.attributes.name;
+                        // Adding a style color to the clicked breed
                         selectedBreedItem = breedItem;
-                        breedItem.style.backgroundColor = 'lightblue';
-
-                        fetchBreedDescription(selectedBreedName);
+                        breedItem.style.backgroundColor = 'blue';
+                        // Invoke the fetchBreedDescription to display facts for a selected breed
+                        fetchBreedDescription(breedData.attributes.name);
                     });
                 });
             })
+            // When the fetch is not successful from the server, this is displayed.
             .catch(error => {
                 console.error('Error fetching dog breeds:', error);
             });
     }
-//fetching breed description
-    function fetchBreedDescription(selectedBreedName) {
-        const selectedBreedData = breedsData.find(breedData => breedData.attributes.name === selectedBreedName);
 
+    // Function to fetch and display breed facts
+    function fetchBreedDescription(selectedBreedName) {
+        // Find a specific breed in the breedsData array based on the condition.
+        const selectedBreedData = breedsData.find(breedData => breedData.attributes.name === selectedBreedName);
         if (selectedBreedData) {
             const breedAttributes = selectedBreedData.attributes;
             displayFact.innerHTML = `
                 <h2 id="title">${breedAttributes.name}</h2>
-                <p id="description">Description: ${breedAttributes.description}</p>
+                <p id="description">${breedAttributes.description}</p>
                 <p id="maxage"> Maximum age: ${breedAttributes.life.max} years</p>
                 <p id="minage"> Minimum age: ${breedAttributes.life.min} years</p>
                 <p id="maleweight"> Male Weight: ${breedAttributes.male_weight.min} - ${breedAttributes.male_weight.max} kg</p>
@@ -65,9 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Adding an event listener to the Subscribe button
-    const subscribeButton = document.getElementById('subscribeButton');
-    subscribeButton.addEventListener('click', () => {
+    // Adding a classlist to the subscribe button
+    subscribeButton.classList.add('btn', 'btn-primary');
+
+    // Subscribe button event listener
+    subscribeButton.addEventListener('click', (e) => {
+        e.preventDefault();
         const emailInput = document.getElementById('emailInput');
         const userEmail = emailInput.value;
 
@@ -77,7 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const emailData = { email: userEmail };
-// HTTP POST
+
+        // Using POST to store email in db.json
         fetch("http://localhost:3000/emails", {
             method: 'POST',
             headers: {
@@ -87,79 +105,60 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(response => response.json())
         .then(message => {
-            alert('Thank You For Subscribing!')
+            alert('Thanks For Subscribing!');
         })
+        // Catching the error
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred while subscribing. Please try again later.');
+            alert('An error occurred. Please try again later.');
         });
-
+        // Clears the input box
         emailInput.value = '';
     });
 
-    const commentInput = document.getElementById('comment-input');
-    const commentList = document.getElementById('comment-list');
-    const commentSubmitButton = document.getElementById('comment-submit');
-
-    function createCommentElement(text) {
-        const commentElement = document.createElement('div');
-        commentElement.classList.add('comment');
-
-        const commentText = document.createElement('p');
-        commentText.textContent = text;
-
-        const actionsDiv = document.createElement('div');
-        actionsDiv.classList.add('actions');
-
-        const editButton = document.createElement('button');
-        editButton.textContent = 'Edit';
-        editButton.classList.add('edit-button');
-        editButton.addEventListener('click', () => {
-            // The edit comment logic here
-        });
-
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.addEventListener('click', () => {
-            //The delete comment logic here
-            commentList.removeChild(commentElement);
-        });
-
-        const editInput = document.createElement('input');
-        editInput.classList.add('edit-input', 'hidden');
-        editInput.setAttribute('type', 'text');
-        editInput.setAttribute('placeholder', 'Edit your comment...');
-        editInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                // The saved edited comment logic here
-            }
-        });
-
-        actionsDiv.appendChild(editButton);
-        actionsDiv.appendChild(deleteButton);
-        commentElement.appendChild(commentText);
-        commentElement.appendChild(actionsDiv);
-        commentElement.appendChild(editInput);
-
-        return commentElement;
+    // Function to create a new comment element
+    function commentSection(commentData) {
+        // You can add code here for handling comments
     }
 
-    function submitComment() {
-        const commentText = commentInput.value.trim();
+    // Function to load comments from the server when the page loads
+    function loadComments() {
+        // You can add code here for loading comments
+    }
 
-        if (commentText !== '') {
-            const commentElement = createCommentElement(commentText);
-            commentList.appendChild(commentElement);
+    // Adding a class to the comment submit button
+    commentSubmitButton.classList.add('btn', 'btn-primary');
+
+    // Event listener for submitting a comment
+    commentSubmitButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Using trim() to remove whitespace characters from the beginning and end of a string
+        const commentArea = commentInput.value.trim();
+        if (commentArea !== '') {
+            fetch('http://localhost:3000/comments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: commentArea }),
+            })
+            .then(response => response.json())
+            .then(commentData => {
+                const commentDiv = commentSection(commentData);
+                commentList.appendChild(commentDiv);
+            })
+            // Catching error from the server
+            .catch(error => {
+                console.error(error);
+            });
+            // Clears the comment input box
             commentInput.value = '';
-        }
-    }
-
-    commentSubmitButton.addEventListener('click', submitComment);
-    commentInput.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-            submitComment();
         }
     });
 
+    // Fetch dog breeds and initialize the page
     fetchDogBreeds();
+
+    // Load comments from the server
+    loadComments();
 });

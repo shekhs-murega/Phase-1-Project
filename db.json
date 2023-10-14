@@ -7,7 +7,24 @@
     {
       "email": "nyamburashekhs@gmail.com",
       "id": 2
+    },
+    {
+      "email": "evelynwangui@gmail.com",
+      "id": 3
+    },
+    {
+      "email": "dogfacts@gmail.com",
+      "id": 4
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "text": "i love the display",
+      "id": 1
+    },
+    {
+      "text": "nice work there",
+      "id": 2
+    }
+  ]
 }
