@@ -1,10 +1,10 @@
 // Dog Breed App
 
-// Wait for the DOM content to be fully loaded before executing JavaScript
+// Ensuring the script loads after the HTML has successfully been displayed
 document.addEventListener('DOMContentLoaded', (e) => {
-    e.preventDefault(); // Prevent the default action of the event
+    e.preventDefault(); // This line is unnecessary here.
 
-    // Get references to various elements in the HTML document
+    // Getting elements by their ID
     const breedList = document.getElementById('breedList');
     const displayFact = document.getElementById('displayfact');
     const subscribeButton = document.getElementById('subscribeButton');
@@ -16,33 +16,34 @@ document.addEventListener('DOMContentLoaded', (e) => {
     let selectedBreedItem = null;
     let breedsData = null;
 
-    // Use fetch to GET the dog breeds from a public API
+    // Using fetch to GET the dog breeds from the public API
     function fetchDogBreeds() {
         fetch('https://dogapi.dog/api/v2/breeds?page[number]=1')
             .then(response => response.json())
             .then(data => {
                 breedsData = data.data;
-                // Display each breed in the list
+                // To display each breed in the list
                 breedsData.forEach(breedData => {
                     const breedItem = document.createElement('ul');
                     breedItem.textContent = breedData.attributes.name;
                     breedList.appendChild(breedItem);
 
-                    // Event listeners for mouse hover and click
+                    // An event listener for the mouse hover
                     breedItem.addEventListener('mouseenter', (e) => {
-                        e.preventDefault();
+                        e.preventDefault(); // This line is unnecessary here.
                         breedItem.style.backgroundColor = 'gray';
                     });
 
                     breedItem.addEventListener('mouseleave', (e) => {
-                        e.preventDefault();
+                        e.preventDefault(); // This line is unnecessary here.
                         if (breedItem !== selectedBreedItem) {
                             breedItem.style.backgroundColor = 'transparent';
                         }
                     });
 
+                    // Event listener for clicking a certain breed
                     breedItem.addEventListener('click', (e) => {
-                        e.preventDefault();
+                        e.preventDefault(); // This line is unnecessary here.
                         if (selectedBreedItem !== null) {
                             selectedBreedItem.style.backgroundColor = 'transparent';
                         }
@@ -60,7 +61,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
             });
     }
 
-    // Function to fetch and display breed facts
+    // Function to Fetch and display breed facts
     function fetchBreedDescription(selectedBreedName) {
         // Find a specific breed in the breedsData array based on the condition.
         const selectedBreedData = breedsData.find(breedData => breedData.attributes.name === selectedBreedName);
@@ -87,12 +88,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
         e.preventDefault();
         const emailInput = document.getElementById('emailInput');
         const userEmail = emailInput.value;
-
+        // Confirming if input is empty
         if (!userEmail) {
-            alert('Enter your email.');
+            alert('Please enter your email.');
             return;
         }
-
         const emailData = { email: userEmail };
 
         // Using POST to store email in db.json
@@ -105,34 +105,121 @@ document.addEventListener('DOMContentLoaded', (e) => {
         })
         .then(response => response.json())
         .then(message => {
-            alert('Thanks For Subscribing!');
+            alert('Thank You For Subscribing!');
         })
         // Catching the error
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred. Please try again later.');
+            alert('An error occurred while subscribing. Please try again later.');
         });
-        // Clears the input box
+
+        // Clears input box
         emailInput.value = '';
     });
 
     // Function to create a new comment element
     function commentSection(commentData) {
-        // You can add code here for handling comments
+        // Creating a div for the comment section
+        let commentDiv = document.createElement('div');
+        // Adding a bootstrap class
+        commentDiv.classList.add('comment');
+        // Adding the comment box
+        let commentArea = document.createElement('p');
+        commentArea.textContent = commentData.text;
+        // Creating a div for the buttons and added comments
+        let actionsDiv = document.createElement('div');
+        actionsDiv.classList.add('actions');
+        // Creating the edit button to edit comments
+        let editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.classList.add('edit-button');
+
+        // Edit comment actions
+        editButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            editInput.classList.remove('hidden');
+            editInput.value = commentData.text;
+            editInput.addEventListener('keydown', (event) => {
+                event.preventDefault();
+                if (event.key === 'Enter') {
+                    // Updating text
+                    let editedText = editInput.value;
+                    let commentId = commentData.id;
+                    // Using PATCH to edit a comment from the server
+                    fetch(`http://localhost:3000/comments/${commentId}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ text: editedText }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                    })
+                    // Catching error from the server
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                    commentArea.textContent = editedText;
+                    editInput.classList.add('hidden');
+                }
+            });
+        });
+
+        // Delete button actions
+        let deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Removing the comment div from the browser
+            commentDiv.remove();
+            const commentId = commentData.id;
+            // Removing the comment from the server side
+            fetch(`http://localhost:3000/comments/${commentId}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        const editInput = document.createElement('input');
+        editInput.classList.add('edit-input', 'hidden');
+        editInput.setAttribute('type', 'text');
+        editInput.setAttribute('placeholder', 'Edit your comment');
+
+        // Adding the items to the elements
+        actionsDiv.appendChild(editButton);
+        actionsDiv.appendChild(deleteBtn);
+        commentDiv.appendChild(commentArea);
+        commentDiv.appendChild(actionsDiv);
+        commentDiv.appendChild(editInput);
+        return commentDiv;
     }
 
     // Function to load comments from the server when the page loads
     function loadComments() {
-        // You can add code here for loading comments
+        fetch('http://localhost:3000/comments')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(commentData => {
+                const commentDiv = commentSection(commentData);
+                commentList.appendChild(commentDiv);
+            });
+        })
+        // Catching error from the server
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
 
-    // Adding a class to the comment submit button
-    commentSubmitButton.classList.add('btn', 'btn-primary');
-
     // Event listener for submitting a comment
+    commentSubmitButton.classList.add('btn', 'btn-primary');
     commentSubmitButton.addEventListener('click', (e) => {
         e.preventDefault();
-        // Using trim() to remove whitespace characters from the beginning and end of a string
+        // I used trim() to remove whitespace characters from the beginning and end of a string
         const commentArea = commentInput.value.trim();
         if (commentArea !== '') {
             fetch('http://localhost:3000/comments', {
@@ -151,7 +238,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
             .catch(error => {
                 console.error(error);
             });
-            // Clears the comment input box
             commentInput.value = '';
         }
     });
@@ -162,3 +248,4 @@ document.addEventListener('DOMContentLoaded', (e) => {
     // Load comments from the server
     loadComments();
 });
+
