@@ -5,12 +5,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
     e.preventDefault(); // This line is unnecessary here.
 
     // Getting elements by their ID
-    const breedList = document.getElementById('breedList');
-    const displayFact = document.getElementById('displayfact');
-    const subscribeButton = document.getElementById('subscribeButton');
-    const commentInput = document.getElementById('comment-input');
+    const dogBreed = document.getElementById('breedList');
+    const breedFact = document.getElementById('displayfact');
+    const subscribeBtn = document.getElementById('subscribeButton');
+    const commentsText = document.getElementById('comment-input');
     const commentList = document.getElementById('comment-list');
-    const commentSubmitButton = document.getElementById('comment-submit');
+    const commentsButton = document.getElementById('comment-submit');
 
     // Initialize selected breed item and fetched breeds data
     let selectedBreedItem = null;
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
                 breedsData.forEach(breedData => {
                     const breedItem = document.createElement('ul');
                     breedItem.textContent = breedData.attributes.name;
-                    breedList.appendChild(breedItem);
+                    dogBreed.appendChild(breedItem);
 
                     // An event listener for the mouse hover
                     breedItem.addEventListener('mouseenter', (e) => {
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         const selectedBreedData = breedsData.find(breedData => breedData.attributes.name === selectedBreedName);
         if (selectedBreedData) {
             const breedAttributes = selectedBreedData.attributes;
-            displayFact.innerHTML = `
+            breedFact.innerHTML = `
                 <h2 id="title">${breedAttributes.name}</h2>
                 <p id="description">${breedAttributes.description}</p>
                 <p id="maxage"> Maximum age: ${breedAttributes.life.max} years</p>
@@ -81,10 +81,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
     }
 
     // Adding a classlist to the subscribe button
-    subscribeButton.classList.add('btn', 'btn-primary');
+    subscribeBtn.classList.add('btn', 'btn-primary');
 
     // Subscribe button event listener
-    subscribeButton.addEventListener('click', (e) => {
+    subscribeBtn.addEventListener('click', (e) => {
         e.preventDefault();
         const emailInput = document.getElementById('emailInput');
         const userEmail = emailInput.value;
@@ -216,11 +216,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
     }
 
     // Event listener for submitting a comment
-    commentSubmitButton.classList.add('btn', 'btn-primary');
-    commentSubmitButton.addEventListener('click', (e) => {
+    commentsButton.classList.add('btn', 'btn-primary');
+    commentsButton.addEventListener('click', (e) => {
         e.preventDefault();
         // I used trim() to remove whitespace characters from the beginning and end of a string
-        const commentArea = commentInput.value.trim();
+        const commentArea = commentsText.value.trim();
         if (commentArea !== '') {
             fetch('http://localhost:3000/comments', {
                 method: 'POST',
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
             .catch(error => {
                 console.error(error);
             });
-            commentInput.value = '';
+            commentsText.value = '';
         }
     });
 
